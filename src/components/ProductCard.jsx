@@ -13,7 +13,8 @@ export default function ProductCard({ product }) {
       <div className={styles.imageWrap}>
         {showPlaceholder ? (
           <div className={styles.placeholder} aria-hidden="true">
-            Sin imagen
+            <span className={styles.placeholderIcon}>✿</span>
+            <span className={styles.placeholderText}>Sin imagen</span>
           </div>
         ) : (
           <img

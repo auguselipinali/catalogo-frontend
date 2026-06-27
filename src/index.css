@@ -1,17 +1,23 @@
 :root {
-  --bg: #f7f7f8;
+  /* Paleta "Caricias al Alma" (tomada del logo) */
+  --bg: #fdfdfb; /* blanco roto */
   --surface: #ffffff;
-  --muted-bg: #f0f0f2;
-  --border: #e5e4e7;
-  --text: #2b2730;
-  --text-strong: #08060d;
-  --muted-text: #6b6375;
-  --accent: #aa3bff;
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --border: #eef2f0;
+  --text: #4a4a4a; /* gris carbón */
+  --text-strong: #2f2f2f;
+  --muted-text: #8a8a8a;
+  --accent: #2ec4a0; /* verde menta */
+  --accent-strong: #25a888;
+  --accent-soft: #e7f7f2; /* menta muy diluido para fondos sutiles */
+  --secondary: #a8e8e8; /* celeste agua */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --shadow-soft: 0 6px 20px rgba(46, 196, 160, 0.08),
+    0 2px 6px rgba(74, 74, 74, 0.05);
+  --shadow-hover: 0 14px 32px rgba(46, 196, 160, 0.16),
+    0 4px 10px rgba(74, 74, 74, 0.08);
+
+  --sans: 'Nunito Sans', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
 
   font-family: var(--sans);
   font-size: 16px;
@@ -32,12 +38,12 @@ body {
 }
 
 code {
-  font-family: var(--mono);
+  font-family: ui-monospace, Consolas, monospace;
   font-size: 0.9em;
   padding: 2px 6px;
   border-radius: 4px;
-  background: var(--muted-bg);
-  color: var(--text-strong);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
 .home {

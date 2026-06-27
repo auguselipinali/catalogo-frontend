@@ -3,20 +3,21 @@
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
   text-align: left;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .card:hover {
-  box-shadow: var(--shadow);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
 }
 
 .imageWrap {
   aspect-ratio: 1 / 1;
-  background: var(--muted-bg);
+  background: var(--accent-soft);
 }
 
 .image {
@@ -26,29 +27,45 @@
   display: block;
 }
 
+/* Placeholder en degradé suave menta -> agua, prolijo y en tono de marca. */
 .placeholder {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: var(--muted-text);
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--accent-soft), #eafafa);
+  color: var(--accent-strong);
+}
+
+.placeholderIcon {
+  font-size: 1.8rem;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.placeholderText {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 14px 16px 18px;
+  gap: 8px;
+  padding: 18px 18px 20px;
 }
 
 .name {
   margin: 0;
-  font-size: 1.05rem;
+  font-family: var(--heading);
+  font-size: 1.5rem;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.15;
   color: var(--text-strong);
 }
 
@@ -62,6 +79,6 @@
 .description {
   margin: 0;
   font-size: 0.9rem;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--muted-text);
 }
