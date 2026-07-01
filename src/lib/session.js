@@ -33,3 +33,24 @@ export function getUserEmail() {
 
   return claims.email ?? claims.name ?? claims.unique_name ?? null
 }
+
+// Slug del comercio logueado, tomado del claim tenant_slug del JWT.
+export function getTenantSlug() {
+  const token = getToken()
+  if (!token) return null
+
+  const claims = decodePayload(token)
+  return claims?.tenant_slug ?? null
+}
+
+// True si no hay token, no se puede decodificar, o el claim exp ya venció.
+// Reemplazo client-side del 401 (el endpoint público que usa el panel no lo da).
+export function isTokenExpired() {
+  const token = getToken()
+  if (!token) return true
+
+  const claims = decodePayload(token)
+  if (!claims || typeof claims.exp !== 'number') return true
+
+  return claims.exp <= Date.now() / 1000
+}
