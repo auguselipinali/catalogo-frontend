@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import CatalogPage from './pages/CatalogPage'
+import LoginPage from './pages/admin/LoginPage'
+import AdminPage from './pages/admin/AdminPage'
 
 function Home() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/admin/login" element={<LoginPage />} />
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="/:slug" element={<CatalogPage />} />
     </Routes>
   )
