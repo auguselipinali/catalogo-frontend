@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import CatalogPage from './pages/CatalogPage'
 import LoginPage from './pages/admin/LoginPage'
 import AdminPage from './pages/admin/AdminPage'
+import NewProductPage from './pages/admin/NewProductPage'
+import RequireAuth from './pages/admin/RequireAuth'
 
 function Home() {
   return (
@@ -18,7 +20,22 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/admin/login" element={<LoginPage />} />
-      <Route path="/admin" element={<AdminPage />} />
+      <Route
+        path="/admin"
+        element={
+          <RequireAuth>
+            <AdminPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/productos/nuevo"
+        element={
+          <RequireAuth>
+            <NewProductPage />
+          </RequireAuth>
+        }
+      />
       <Route path="/:slug" element={<CatalogPage />} />
     </Routes>
   )

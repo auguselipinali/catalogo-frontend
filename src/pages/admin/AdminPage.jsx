@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { getAdminProducts } from '../../api/admin'
-import { formatPrice } from '../../lib/format'
+import { useNavigate, Link } from 'react-router-dom'
 import {
-  getToken,
-  getTenantSlug,
-  clearToken,
-  isTokenExpired,
-} from '../../lib/session'
+  getAdminProducts,
+  deleteProduct,
+  SessionExpiredError,
+} from '../../api/admin'
+import { formatPrice } from '../../lib/format'
+import { getTenantSlug, clearToken } from '../../lib/session'
 import styles from './AdminPage.module.css'
 
 function truncate(text, max = 80) {
@@ -19,12 +18,10 @@ export default function AdminPage() {
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [status, setStatus] = useState('loading') // loading | ok | error
-
-  const authed = getToken() && !isTokenExpired()
+  const [deletingId, setDeletingId] = useState(null)
+  const [actionError, setActionError] = useState('')
 
   useEffect(() => {
-    if (!authed) return
-
     let active = true
     getAdminProducts(getTenantSlug())
       .then((data) => {
@@ -40,17 +37,36 @@ export default function AdminPage() {
     return () => {
       active = false
     }
-  }, [authed])
-
-  // Guard: sin token o sesión expirada, limpiamos y vamos a login.
-  if (!authed) {
-    clearToken()
-    return <Navigate to="/admin/login" replace />
-  }
+  }, [])
 
   function handleLogout() {
     clearToken()
     navigate('/admin/login')
+  }
+
+  function handleSessionExpired() {
+    clearToken()
+    navigate('/admin/login')
+  }
+
+  async function handleDelete(product) {
+    if (!window.confirm(`¿Borrar «${product.name}»?`)) return
+
+    setActionError('')
+    setDeletingId(product.id)
+
+    try {
+      await deleteProduct(product.id)
+      setProducts((prev) => prev.filter((p) => p.id !== product.id))
+    } catch (err) {
+      if (err instanceof SessionExpiredError) {
+        handleSessionExpired()
+        return
+      }
+      setActionError('No pudimos borrar el producto. Intentá de nuevo.')
+    } finally {
+      setDeletingId(null)
+    }
   }
 
   return (
@@ -62,7 +78,17 @@ export default function AdminPage() {
         </button>
       </div>
 
-      <div className={styles.content}>{renderContent()}</div>
+      <div className={styles.content}>
+        <div className={styles.toolbar}>
+          <Link className={styles.addButton} to="/admin/productos/nuevo">
+            Agregar producto
+          </Link>
+        </div>
+
+        {actionError && <p className={styles.actionError}>{actionError}</p>}
+
+        {renderContent()}
+      </div>
     </main>
   )
 
@@ -92,6 +118,7 @@ export default function AdminPage() {
               <th>Precio</th>
               <th>Descripción</th>
               <th>Imagen</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -101,6 +128,16 @@ export default function AdminPage() {
                 <td className={styles.price}>{formatPrice(product.price)}</td>
                 <td>{truncate(product.description)}</td>
                 <td>{product.imageUrl ? 'Sí' : '—'}</td>
+                <td>
+                  <button
+                    className={styles.delete}
+                    type="button"
+                    onClick={() => handleDelete(product)}
+                    disabled={deletingId === product.id}
+                  >
+                    {deletingId === product.id ? 'Borrando…' : 'Borrar'}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
