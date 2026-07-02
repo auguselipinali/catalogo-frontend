@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { Navigate, useNavigate, useLocation, useParams } from 'react-router-dom'
+import {
+  Navigate,
+  useNavigate,
+  useLocation,
+  useNavigationType,
+  useParams,
+} from 'react-router-dom'
 import { updateProduct, SessionExpiredError } from '../../api/admin'
 import { clearToken } from '../../lib/session'
 import ProductForm from './ProductForm'
@@ -8,15 +14,18 @@ import styles from './ProductFormPage.module.css'
 export default function EditProductPage() {
   const { id } = useParams()
   const location = useLocation()
+  const navigationType = useNavigationType()
   const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
   const product = location.state?.product
 
-  // Sin el producto en el state (URL directa o recarga) no hay qué editar:
-  // volvemos a la tabla, que es desde donde se entra a editar.
-  if (!product) {
+  // El state de navegación se guarda en history.state y SOBREVIVE al reload,
+  // así que chequear !product no alcanza. Solo llegamos con intención real de
+  // editar cuando venimos por el link "Editar" (un PUSH). Reload, URL directa
+  // o back/forward son POP: no hay qué editar -> volvemos a la tabla.
+  if (navigationType !== 'PUSH' || !product) {
     return <Navigate to="/admin" replace />
   }
 
