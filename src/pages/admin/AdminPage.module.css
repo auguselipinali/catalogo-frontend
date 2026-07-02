@@ -1,0 +1,165 @@
+.page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.logout {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.logout:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.content {
+  flex: 1;
+  padding: 24px 20px 48px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.addButton {
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.addButton:hover {
+  background: var(--accent-strong);
+}
+
+.actionError {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fdecec;
+  color: #b3261e;
+  font-size: 0.88rem;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit,
+.delete {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.edit {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.edit:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.delete {
+  color: #b3261e;
+}
+
+.delete:hover:not(:disabled) {
+  border-color: #b3261e;
+  background: #fdecec;
+}
+
+.delete:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.state {
+  margin: 64px auto;
+  text-align: center;
+  color: var(--muted-text);
+  font-size: 1rem;
+}
+
+/* Scroll horizontal en mobile para que la tabla no rompa el layout. */
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.table th {
+  font-weight: 700;
+  color: var(--text-strong);
+  background: var(--bg);
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.price {
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
