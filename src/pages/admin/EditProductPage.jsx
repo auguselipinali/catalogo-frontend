@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  Link,
   Navigate,
   useNavigate,
   useLocation,
@@ -49,6 +50,9 @@ export default function EditProductPage() {
 
   return (
     <main className={styles.page}>
+      <Link className={styles.back} to="/admin">
+        ← Volver
+      </Link>
       <h1 className={styles.title}>Editar producto</h1>
       <ProductForm
         initialValues={product}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { createProduct, SessionExpiredError } from '../../api/admin'
 import { clearToken } from '../../lib/session'
 import ProductForm from './ProductForm'
@@ -30,6 +30,9 @@ export default function NewProductPage() {
 
   return (
     <main className={styles.page}>
+      <Link className={styles.back} to="/admin">
+        ← Volver
+      </Link>
       <h1 className={styles.title}>Agregar producto</h1>
       <ProductForm
         submitting={submitting}
