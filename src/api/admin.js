@@ -57,6 +57,19 @@ export async function createProduct(product) {
   return response.json()
 }
 
+// Actualiza un producto por id (204).
+export async function updateProduct(id, product) {
+  const response = await authFetch(`/admin/products/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(product),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error al guardar el producto (${response.status}).`)
+  }
+}
+
 // Borra un producto por id (204).
 export async function deleteProduct(id) {
   const response = await authFetch(`/admin/products/${id}`, {

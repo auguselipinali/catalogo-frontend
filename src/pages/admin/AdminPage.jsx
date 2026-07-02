@@ -129,14 +129,23 @@ export default function AdminPage() {
                 <td>{truncate(product.description)}</td>
                 <td>{product.imageUrl ? 'Sí' : '—'}</td>
                 <td>
-                  <button
-                    className={styles.delete}
-                    type="button"
-                    onClick={() => handleDelete(product)}
-                    disabled={deletingId === product.id}
-                  >
-                    {deletingId === product.id ? 'Borrando…' : 'Borrar'}
-                  </button>
+                  <div className={styles.actions}>
+                    <Link
+                      className={styles.edit}
+                      to={`/admin/productos/${product.id}/editar`}
+                      state={{ product }}
+                    >
+                      Editar
+                    </Link>
+                    <button
+                      className={styles.delete}
+                      type="button"
+                      onClick={() => handleDelete(product)}
+                      disabled={deletingId === product.id}
+                    >
+                      {deletingId === product.id ? 'Borrando…' : 'Borrar'}
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

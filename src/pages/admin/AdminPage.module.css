@@ -76,6 +76,12 @@
   font-size: 0.88rem;
 }
 
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit,
 .delete {
   font: inherit;
   font-weight: 600;
@@ -84,10 +90,23 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
-  color: #b3261e;
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.edit {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.edit:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.delete {
+  color: #b3261e;
 }
 
 .delete:hover:not(:disabled) {

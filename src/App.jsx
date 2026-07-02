@@ -3,6 +3,7 @@ import CatalogPage from './pages/CatalogPage'
 import LoginPage from './pages/admin/LoginPage'
 import AdminPage from './pages/admin/AdminPage'
 import NewProductPage from './pages/admin/NewProductPage'
+import EditProductPage from './pages/admin/EditProductPage'
 import RequireAuth from './pages/admin/RequireAuth'
 
 function Home() {
@@ -33,6 +34,14 @@ export default function App() {
         element={
           <RequireAuth>
             <NewProductPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/productos/:id/editar"
+        element={
+          <RequireAuth>
+            <EditProductPage />
           </RequireAuth>
         }
       />
