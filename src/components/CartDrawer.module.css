@@ -1,0 +1,215 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(47, 47, 47, 0.4);
+  display: flex;
+  justify-content: flex-end;
+  animation: fade 0.15s ease;
+}
+
+.drawer {
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+  animation: slide 0.2s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.close {
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--muted-text);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.close:hover {
+  color: var(--text-strong);
+  background: var(--bg);
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-text);
+  text-align: center;
+  padding: 24px;
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 8px 20px;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.lineInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lineName {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.lineUnit {
+  font-size: 0.82rem;
+  color: var(--muted-text);
+}
+
+.lineControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-strong);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.qty button:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.qty span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.lineSubtotal {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.remove {
+  grid-column: 1 / -1;
+  justify-self: start;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted-text);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.remove:hover {
+  color: #b3261e;
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 18px 20px calc(18px + env(safe-area-inset-bottom));
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.totalValue {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+/* Botón de acción en verde menta actual. Cuando definan el magenta de la
+   marca, cambiar --accent aquí (o la variable global) es suficiente. */
+.order {
+  width: 100%;
+  font: inherit;
+  font-weight: 700;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.order:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
+.order:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.warn {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  color: #b3261e;
+  text-align: center;
+}

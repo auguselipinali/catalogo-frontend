@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getProducts, TenantNotFoundError } from '../api/catalog'
+import { CartProvider } from '../cart/CartProvider'
 import Header from '../components/Header'
 import ProductCard from '../components/ProductCard'
+import CartButton from '../components/CartButton'
+import CartDrawer from '../components/CartDrawer'
 import styles from './CatalogPage.module.css'
 
 export default function CatalogPage() {
@@ -73,13 +76,17 @@ export default function CatalogPage() {
     }
 
     return (
-      <main className={styles.page}>
-        <div className={styles.grid}>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </main>
+      <CartProvider slug={slug} products={products}>
+        <main className={styles.page}>
+          <div className={styles.grid}>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </main>
+        <CartButton />
+        <CartDrawer />
+      </CartProvider>
     )
   }
 }

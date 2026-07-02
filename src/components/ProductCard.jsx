@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { formatPrice } from '../lib/format'
+import { useCart } from '../cart/CartContext'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ product }) {
-  const { name, price, description, imageUrl } = product
+  const { id, name, price, description, imageUrl } = product
+  const { addItem } = useCart()
   const [imgFailed, setImgFailed] = useState(false)
 
   const showPlaceholder = !imageUrl || imgFailed
@@ -31,6 +33,13 @@ export default function ProductCard({ product }) {
         <h2 className={styles.name}>{name}</h2>
         <p className={styles.price}>{formatPrice(price)}</p>
         {description && <p className={styles.description}>{description}</p>}
+        <button
+          className={styles.add}
+          type="button"
+          onClick={() => addItem(id)}
+        >
+          Agregar
+        </button>
       </div>
     </article>
   )
