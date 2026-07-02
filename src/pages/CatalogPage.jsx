@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getProducts, TenantNotFoundError } from '../api/catalog'
+import { normalize } from '../lib/text'
+import { CartProvider } from '../cart/CartProvider'
 import Header from '../components/Header'
 import ProductCard from '../components/ProductCard'
+import CartButton from '../components/CartButton'
+import CartDrawer from '../components/CartDrawer'
 import styles from './CatalogPage.module.css'
 
 export default function CatalogPage() {
@@ -10,6 +14,7 @@ export default function CatalogPage() {
   const [products, setProducts] = useState([])
   const [status, setStatus] = useState('loading') // loading | ok | not-found | error
   const [shownSlug, setShownSlug] = useState(slug)
+  const [query, setQuery] = useState('')
 
   // Al cambiar de comercio volvemos a "loading" antes de pintar.
   // Patrón recomendado por React (ajustar estado en render según un prop).
@@ -17,6 +22,7 @@ export default function CatalogPage() {
     setShownSlug(slug)
     setStatus('loading')
     setProducts([])
+    setQuery('')
   }
 
   useEffect(() => {
@@ -72,14 +78,49 @@ export default function CatalogPage() {
       )
     }
 
+    // Filtrado en vivo, derivado en render (sin estado extra). Tolerante a
+    // mayúsculas y acentos vía normalize(). Query vacío -> todos.
+    const q = normalize(query)
+    const visible = q
+      ? products.filter(
+          (p) =>
+            normalize(p.name).includes(q) ||
+            normalize(p.description).includes(q),
+        )
+      : products
+
     return (
-      <main className={styles.page}>
-        <div className={styles.grid}>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </main>
+      <CartProvider slug={slug} products={products}>
+        <main className={styles.page}>
+          <div className={styles.search}>
+            <span className={styles.searchIcon} aria-hidden="true">
+              🔍
+            </span>
+            <input
+              className={styles.searchInput}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Buscar productos…"
+              aria-label="Buscar productos"
+            />
+          </div>
+
+          {visible.length === 0 ? (
+            <p className={styles.state}>
+              No encontramos productos con esa búsqueda.
+            </p>
+          ) : (
+            <div className={styles.grid}>
+              {visible.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
+        </main>
+        <CartButton />
+        <CartDrawer />
+      </CartProvider>
     )
   }
 }

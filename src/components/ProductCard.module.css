@@ -58,6 +58,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 18px 18px 20px;
+  flex: 1;
 }
 
 .name {
@@ -81,4 +82,22 @@
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--muted-text);
+}
+
+/* Empuja el botón al pie de la card para alinear todas las grillas. */
+.add {
+  margin-top: auto;
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.add:hover {
+  background: var(--accent-strong);
 }
