@@ -183,8 +183,8 @@
   color: var(--text-strong);
 }
 
-/* Botón de acción en verde menta actual. Cuando definan el magenta de la
-   marca, cambiar --accent aquí (o la variable global) es suficiente. */
+/* Acción principal del carrito en magenta de la marca (acento puntual),
+   destacándose del verde menta que domina el resto del catálogo. */
 .order {
   width: 100%;
   font: inherit;
@@ -192,14 +192,15 @@
   padding: 14px 16px;
   border: none;
   border-radius: 10px;
-  background: var(--accent);
+  background: var(--magenta);
   color: #fff;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
-.order:hover:not(:disabled) {
-  background: var(--accent-strong);
+.order:hover:not(:disabled),
+.order:active:not(:disabled) {
+  background: var(--magenta-strong);
 }
 
 .order:disabled {

@@ -10,6 +10,10 @@
   --accent-strong: #25a888;
   --accent-soft: #e7f7f2; /* menta muy diluido para fondos sutiles */
   --secondary: #a8e8e8; /* celeste agua */
+  /* Magenta de la marca, acento puntual (solo la acción de pedido).
+     HEX PROVISIONAL: a confirmar con la clienta. */
+  --magenta: #c4568c;
+  --magenta-strong: #a8497a; /* variante oscura para hover/active */
 
   --shadow-soft: 0 6px 20px rgba(46, 196, 160, 0.08),
     0 2px 6px rgba(74, 74, 74, 0.05);
