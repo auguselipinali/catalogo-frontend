@@ -80,3 +80,55 @@ export async function deleteProduct(id) {
     throw new Error(`Error al borrar el producto (${response.status}).`)
   }
 }
+
+// --- Categorías (todos los endpoints protegidos) ---
+
+// Lista las categorías del tenant. Devuelve [{ id, name }].
+export async function getCategories() {
+  const response = await authFetch('/admin/categories')
+
+  if (!response.ok) {
+    throw new Error(`Error al cargar las categorías (${response.status}).`)
+  }
+
+  return response.json()
+}
+
+// Crea una categoría. Devuelve { id }.
+export async function createCategory(name) {
+  const response = await authFetch('/admin/categories', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name }),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error al crear la categoría (${response.status}).`)
+  }
+
+  return response.json()
+}
+
+// Renombra una categoría por id (204).
+export async function updateCategory(id, name) {
+  const response = await authFetch(`/admin/categories/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name }),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error al guardar la categoría (${response.status}).`)
+  }
+}
+
+// Borra una categoría por id (204).
+export async function deleteCategory(id) {
+  const response = await authFetch(`/admin/categories/${id}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error al borrar la categoría (${response.status}).`)
+  }
+}

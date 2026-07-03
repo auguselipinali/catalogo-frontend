@@ -33,10 +33,34 @@
   resize: vertical;
 }
 
+.select {
+  font: inherit;
+  font-weight: 400;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
 .input:focus,
-.textarea:focus {
+.textarea:focus,
+.select:focus {
   outline: none;
   border-color: var(--accent);
+}
+
+.select:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.fieldHint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #b3261e;
 }
 
 .error {

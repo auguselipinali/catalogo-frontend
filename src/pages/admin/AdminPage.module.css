@@ -47,7 +47,10 @@
 
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
@@ -65,6 +68,25 @@
 
 .addButton:hover {
   background: var(--accent-strong);
+}
+
+/* Acción secundaria de la toolbar (menos peso que "Agregar producto"). */
+.secondaryLink {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.secondaryLink:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .actionError {

@@ -4,6 +4,7 @@ import LoginPage from './pages/admin/LoginPage'
 import AdminPage from './pages/admin/AdminPage'
 import NewProductPage from './pages/admin/NewProductPage'
 import EditProductPage from './pages/admin/EditProductPage'
+import CategoriesPage from './pages/admin/CategoriesPage'
 import RequireAuth from './pages/admin/RequireAuth'
 
 function Home() {
@@ -42,6 +43,14 @@ export default function App() {
         element={
           <RequireAuth>
             <EditProductPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/categorias"
+        element={
+          <RequireAuth>
+            <CategoriesPage />
           </RequireAuth>
         }
       />
