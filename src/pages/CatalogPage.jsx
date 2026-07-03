@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import ProductCard from '../components/ProductCard'
 import CartButton from '../components/CartButton'
 import CartDrawer from '../components/CartDrawer'
+import SiteFooter from '../components/SiteFooter'
 import styles from './CatalogPage.module.css'
 
 export default function CatalogPage() {
@@ -50,6 +51,7 @@ export default function CatalogPage() {
     <>
       <Header />
       {renderContent()}
+      <SiteFooter />
     </>
   )
 
