@@ -1,0 +1,49 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 10px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 20px calc(28px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--muted-text);
+  text-align: center;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.role {
+  font-weight: 400;
+}
+
+.link {
+  font-weight: 600;
+  color: var(--accent-strong);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Los separadores desaparecen cuando el footer se apila en pantallas angostas,
+   para que no queden puntos sueltos entre líneas. */
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sep {
+    display: none;
+  }
+}
