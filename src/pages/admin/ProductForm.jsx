@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getCategories } from '../../api/admin'
 import styles from './ProductForm.module.css'
 
-// Formulario presentacional y reutilizable (crear y editar).
-// No sabe de API ni de rutas: valida y delega en onSubmit(values).
+// Formulario reutilizable (crear y editar). Valida y delega en onSubmit(values).
+// Carga sus propias categorías para el selector; si falla, degrada sin romper.
 export default function ProductForm({
   initialValues,
   submitting,
@@ -17,7 +18,28 @@ export default function ProductForm({
     initialValues?.description ?? '',
   )
   const [imageUrl, setImageUrl] = useState(initialValues?.imageUrl ?? '')
+  // '' = "Sin categoría" (categoryId null). En editar viene de initialValues.
+  const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? '')
+  const [categories, setCategories] = useState([])
+  const [categoriesFailed, setCategoriesFailed] = useState(false)
   const [validationError, setValidationError] = useState('')
+
+  // Categorías del tenant para el selector. Si falla, dejamos el select
+  // deshabilitado con aviso; el resto del form sigue funcionando.
+  useEffect(() => {
+    let active = true
+    getCategories()
+      .then((data) => {
+        if (active) setCategories(data)
+      })
+      .catch(() => {
+        if (active) setCategoriesFailed(true)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -40,6 +62,7 @@ export default function ProductForm({
       price: numericPrice,
       description: description.trim(),
       imageUrl: imageUrl.trim() || null,
+      categoryId: categoryId || null,
     })
   }
 
@@ -77,6 +100,28 @@ export default function ProductForm({
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
         />
+      </label>
+
+      <label className={styles.label}>
+        Categoría
+        <select
+          className={styles.select}
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          disabled={categoriesFailed}
+        >
+          <option value="">Sin categoría</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        {categoriesFailed && (
+          <span className={styles.fieldHint}>
+            No se pudieron cargar las categorías.
+          </span>
+        )}
       </label>
 
       <label className={styles.label}>
