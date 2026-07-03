@@ -10,6 +10,14 @@ import CartDrawer from '../components/CartDrawer'
 import SiteFooter from '../components/SiteFooter'
 import styles from './CatalogPage.module.css'
 
+// Tamaño de tanda para la paginación "Cargar más".
+const PAGE_SIZE = 12
+
+// Firma del filtro actual: si cambia, la paginación vuelve a empezar.
+function makeFilterKey(categoryId, query) {
+  return `${categoryId ?? ''}|${query.trim().toLowerCase()}`
+}
+
 export default function CatalogPage() {
   const { slug } = useParams()
   const [products, setProducts] = useState([])
@@ -17,6 +25,8 @@ export default function CatalogPage() {
   const [shownSlug, setShownSlug] = useState(slug)
   const [query, setQuery] = useState('')
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [lastFilterKey, setLastFilterKey] = useState(makeFilterKey(null, ''))
 
   // Al cambiar de comercio volvemos a "loading" antes de pintar.
   // Patrón recomendado por React (ajustar estado en render según un prop).
@@ -26,6 +36,14 @@ export default function CatalogPage() {
     setProducts([])
     setQuery('')
     setSelectedCategoryId(null)
+  }
+
+  // Reset de la paginación cuando cambia la categoría o el texto (mismo patrón
+  // de ajuste-en-render): volvemos a la primera tanda del nuevo resultado.
+  const filterKey = makeFilterKey(selectedCategoryId, query)
+  if (filterKey !== lastFilterKey) {
+    setLastFilterKey(filterKey)
+    setVisibleCount(PAGE_SIZE)
   }
 
   useEffect(() => {
@@ -103,6 +121,10 @@ export default function CatalogPage() {
           normalize(p.description).includes(q),
       )
 
+    // Paginación: al final del pipeline, sobre el resultado ya filtrado.
+    const shown = visible.slice(0, visibleCount)
+    const hasMore = visible.length > shown.length
+
     return (
       <CartProvider slug={slug} products={products}>
         <main className={styles.page}>
@@ -151,11 +173,28 @@ export default function CatalogPage() {
               No encontramos productos con esa búsqueda.
             </p>
           ) : (
-            <div className={styles.grid}>
-              {visible.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <>
+              <div className={styles.grid}>
+                {shown.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              <div className={styles.pagination}>
+                <p className={styles.count}>
+                  Mostrando {shown.length} de {visible.length}
+                </p>
+                {hasMore && (
+                  <button
+                    type="button"
+                    className={styles.loadMore}
+                    onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                  >
+                    Cargar más
+                  </button>
+                )}
+              </div>
+            </>
           )}
         </main>
         <CartButton />
