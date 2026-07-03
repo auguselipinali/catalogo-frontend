@@ -119,6 +119,7 @@ export default function AdminPage() {
             <tr>
               <th>Nombre</th>
               <th>Precio</th>
+              <th>Categoría</th>
               <th>Descripción</th>
               <th>Imagen</th>
               <th></th>
@@ -129,6 +130,7 @@ export default function AdminPage() {
               <tr key={product.id}>
                 <td>{product.name}</td>
                 <td className={styles.price}>{formatPrice(product.price)}</td>
+                <td>{product.categoryName || 'Sin categoría'}</td>
                 <td>{truncate(product.description)}</td>
                 <td>{product.imageUrl ? 'Sí' : '—'}</td>
                 <td>
