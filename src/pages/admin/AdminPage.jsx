@@ -80,6 +80,9 @@ export default function AdminPage() {
 
       <div className={styles.content}>
         <div className={styles.toolbar}>
+          <Link className={styles.secondaryLink} to="/admin/categorias">
+            Gestionar categorías
+          </Link>
           <Link className={styles.addButton} to="/admin/productos/nuevo">
             Agregar producto
           </Link>
