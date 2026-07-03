@@ -12,7 +12,7 @@ export default function SiteFooter() {
         ·
       </span>
       <span className={styles.role}>
-        Desarrollo de software y catálogos web para comercios
+        Desarrollador de software
       </span>
       <span className={styles.sep} aria-hidden="true">
         ·
