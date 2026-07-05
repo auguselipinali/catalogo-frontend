@@ -121,3 +121,34 @@
   font-style: normal;
   color: var(--accent-strong);
 }
+
+/* Paginación "Cargar más": conteo + botón centrados bajo la grilla. */
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted-text);
+}
+
+.loadMore {
+  font: inherit;
+  font-weight: 700;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.loadMore:hover {
+  background: var(--accent-strong);
+}
