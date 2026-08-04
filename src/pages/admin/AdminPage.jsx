@@ -6,6 +6,7 @@ import {
   SessionExpiredError,
 } from '../../api/admin'
 import { formatPrice } from '../../lib/format'
+import { normalize } from '../../lib/text'
 import { getTenantSlug, clearToken } from '../../lib/session'
 import styles from './AdminPage.module.css'
 
@@ -20,6 +21,7 @@ export default function AdminPage() {
   const [status, setStatus] = useState('loading') // loading | ok | error
   const [deletingId, setDeletingId] = useState(null)
   const [actionError, setActionError] = useState('')
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     let active = true
@@ -112,51 +114,79 @@ export default function AdminPage() {
       return <p className={styles.state}>Todavía no tenés productos cargados.</p>
     }
 
+    // Filtrado en vivo, derivado en render (mismo patrón que CatalogPage).
+    // Tolerante a mayúsculas y acentos vía normalize(). Vacío -> todos.
+    const q = normalize(query)
+    const visible = q
+      ? products.filter(
+          (p) =>
+            normalize(p.name).includes(q) ||
+            normalize(p.description).includes(q),
+        )
+      : products
+
     return (
-      <div className={styles.tableWrap}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Categoría</th>
-              <th>Descripción</th>
-              <th>Imagen</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td className={styles.price}>{formatPrice(product.price)}</td>
-                <td>{product.categoryName || 'Sin categoría'}</td>
-                <td>{truncate(product.description)}</td>
-                <td>{product.imageUrl ? 'Sí' : '—'}</td>
-                <td>
-                  <div className={styles.actions}>
-                    <Link
-                      className={styles.edit}
-                      to={`/admin/productos/${product.id}/editar`}
-                      state={{ product }}
-                    >
-                      Editar
-                    </Link>
-                    <button
-                      className={styles.delete}
-                      type="button"
-                      onClick={() => handleDelete(product)}
-                      disabled={deletingId === product.id}
-                    >
-                      {deletingId === product.id ? 'Borrando…' : 'Borrar'}
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <>
+        <input
+          className={styles.search}
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Buscar productos…"
+          aria-label="Buscar productos"
+        />
+
+        {visible.length === 0 ? (
+          <p className={styles.state}>No se encontraron productos.</p>
+        ) : (
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Categoría</th>
+                  <th>Descripción</th>
+                  <th>Imagen</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {visible.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.name}</td>
+                    <td className={styles.price}>
+                      {formatPrice(product.price)}
+                    </td>
+                    <td>{product.categoryName || 'Sin categoría'}</td>
+                    <td>{truncate(product.description)}</td>
+                    <td>{product.imageUrl ? 'Sí' : '—'}</td>
+                    <td>
+                      <div className={styles.actions}>
+                        <Link
+                          className={styles.edit}
+                          to={`/admin/productos/${product.id}/editar`}
+                          state={{ product }}
+                        >
+                          Editar
+                        </Link>
+                        <button
+                          className={styles.delete}
+                          type="button"
+                          onClick={() => handleDelete(product)}
+                          disabled={deletingId === product.id}
+                        >
+                          {deletingId === product.id ? 'Borrando…' : 'Borrar'}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </>
     )
   }
 }

@@ -136,6 +136,26 @@
   background: #fdecec;
 }
 
+/* Buscador de la tabla, coherente con los inputs del panel. */
+.search {
+  width: 100%;
+  max-width: 360px;
+  font: inherit;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-strong);
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
 .delete:disabled {
   opacity: 0.6;
   cursor: default;
